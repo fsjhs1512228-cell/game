@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山居聽泉 × 文言文解密特訓營 | 國中文言文遊戲化學習平台</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Noto Serif TC for Classical Headings & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Noto Serif TC"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        deepgreen: {
+                            50: '#f4f8f5',
+                            100: '#e5efe8',
+                            200: '#c7decf',
+                            300: '#9ec4aa',
+                            400: '#6fa37f',
+                            500: '#48835a',
+                            600: '#346944',
+                            700: '#2a5337',
+                            800: '#1c3d28',
+                            900: '#11291b',
+                            950: '#09170e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #1a241e;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+        .font-classical {
+            font-family: 'Noto Serif TC', serif;
+        }
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f4f8f5;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #1c3d28;
+            border-radius: 4px;
+        }
+        .deep-gradient {
+            background: linear-gradient(135deg, #09170e 0%, #11291b 50%, #1c3d28 100%);
+        }
+        .green-glow {
+            box-shadow: 0 10px 30px -10px rgba(28, 61, 40, 0.25);
+        }
+        @keyframes subtle-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.95; }
+            50% { transform: scale(1.02); opacity: 1; }
+        }
+        .animate-pulse-subtle {
+            animation: subtle-pulse 4s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-white text-stone-900 custom-scroll antialiased selection:bg-deepgreen-200 selection:text-deepgreen-950">
+
+    <!-- Toast Notification Container -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-deepgreen-900 text-white px-5 py-3 rounded-xl shadow-2xl border border-deepgreen-700 flex items-center gap-3 text-sm font-semibold pointer-events-none">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <span id="toast-message">訊息通知</span>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 border-b border-deepgreen-100 shadow-sm transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex justify-between items-center">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-deepgreen-900 text-emerald-100 flex items-center justify-center font-black text-xl font-classical shadow-md group-hover:scale-105 transition-transform border border-deepgreen-700">
+                    解
+                </div>
+                <div>
+                    <span class="text-lg font-bold font-classical tracking-tight text-deepgreen-950 block leading-none">文言文解密特訓營</span>
+                    <span class="text-[11px] text-deepgreen-600 font-semibold tracking-wider">山居聽泉 ‧ 一頁式官網</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-stone-700">
+                <a href="#journey" class="hover:text-deepgreen-800 transition">學習歷程</a>
+                <a href="#features" class="hover:text-deepgreen-800 transition">核心功能</a>
+                <a href="#poetry-library" class="hover:text-deepgreen-800 transition">唐宋元寶庫</a>
+                <a href="#theme-music" class="hover:text-deepgreen-800 transition">主題曲《山居聽泉》</a>
+                <a href="#mini-game" class="hover:text-deepgreen-800 transition">即時試煉場</a>
+            </nav>
+
+            <!-- CTA Button -->
+            <div class="flex items-center gap-3">
+                <a href="#mini-game" class="px-5 py-2.5 rounded-xl bg-deepgreen-900 hover:bg-deepgreen-800 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition flex items-center gap-2 border border-deepgreen-700">
+                    <i class="fa-solid fa-gamepad"></i> 立即開始試煉
+                </a>
+                <button id="mobile-menu-toggle" class="md:hidden p-2 text-deepgreen-900 text-xl focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-deepgreen-100 px-6 py-4 space-y-3 font-semibold text-sm text-stone-700">
+            <a href="#journey" class="block py-2 hover:text-deepgreen-800" onclick="toggleMobileMenu()">學習歷程</a>
+            <a href="#features" class="block py-2 hover:text-deepgreen-800" onclick="toggleMobileMenu()">核心功能</a>
+            <a href="#poetry-library" class="block py-2 hover:text-deepgreen-800" onclick="toggleMobileMenu()">唐宋元寶庫</a>
+            <a href="#theme-music" class="block py-2 hover:text-deepgreen-800" onclick="toggleMobileMenu()">主題曲《山居聽泉》</a>
+            <a href="#mini-game" class="block py-2 hover:text-deepgreen-800" onclick="toggleMobileMenu()">即時試煉場</a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative bg-gradient-to-b from-white via-deepgreen-50/50 to-white py-12 sm:py-20 overflow-hidden border-b border-deepgreen-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Column: Text & Badges -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-deepgreen-100 text-deepgreen-900 text-xs font-bold border border-deepgreen-200 shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+                        <span>專為國中生量身打造 ‧ 四大詞性極速破解</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl font-black font-classical text-deepgreen-950 leading-tight tracking-wide">
+                        山居聽泉 <span class="text-deepgreen-700 font-normal">×</span><br>
+                        文言文解密特訓營
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-stone-700 leading-relaxed max-w-2xl">
+                        告別死記硬背！以<strong class="text-deepgreen-900 bg-deepgreen-100 px-1.5 py-0.5 rounded">名詞（主詞）、代名詞、形容詞、副詞</strong>四大詞性為解密鑰匙，輕鬆搞懂《長歌行》、《過故人莊》與 30+ 國中必考唐詩、宋詞、元曲！
+                    </p>
+
+                    <!-- Feature Badges Pills -->
+                    <div class="flex flex-wrap gap-2.5 pt-2 text-xs font-bold text-deepgreen-900">
+                        <span class="px-3 py-1.5 bg-white rounded-lg border border-deepgreen-200 shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-layer-group text-deepgreen-600"></i> 易、中難、難三級闖關
+                        </span>
+                        <span class="px-3 py-1.5 bg-white rounded-lg border border-deepgreen-200 shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-music text-deepgreen-600"></i> Suno AI 《山居聽泉》主題配樂
+                        </span>
+                        <span class="px-3 py-1.5 bg-white rounded-lg border border-deepgreen-200 shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-scroll text-deepgreen-600"></i> 唐宋元 30+ 原文譯文庫
+                        </span>
+                    </div>
+
+                    <!-- Call to Action Buttons -->
+                    <div class="pt-4 flex flex-col sm:flex-row gap-4">
+                        <a href="#mini-game" class="px-8 py-4 rounded-xl bg-deepgreen-900 hover:bg-deepgreen-800 text-white font-bold text-base shadow-xl hover:shadow-2xl transition transform active:scale-95 flex items-center justify-center gap-3 border border-deepgreen-700">
+                            <i class="fa-solid fa-circle-play text-emerald-400 text-lg"></i> 開始試煉遊戲 (XP 獎勵)
+                        </a>
+                        <a href="#theme-music" class="px-8 py-4 rounded-xl bg-white hover:bg-deepgreen-50 text-deepgreen-900 font-bold text-base shadow-sm border border-deepgreen-300 transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-headphones text-deepgreen-700"></i> 試聽《山居聽泉》
+                        </a>
+                    </div>
+
+                    <!-- Quick Metrics Row -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-deepgreen-200/60 max-w-lg">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-black font-classical text-deepgreen-900">30+</div>
+                            <div class="text-xs font-semibold text-stone-500">唐宋元精選詩詞</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-black font-classical text-deepgreen-900">4 大</div>
+                            <div class="text-xs font-semibold text-stone-500">詞性零失敗拆解</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-black font-classical text-deepgreen-900">100%</div>
+                            <div class="text-xs font-semibold text-stone-500">國中課綱專屬</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Column: Poet Illustration Showcase Container -->
+                <div class="lg:col-span-5 relative">
+                    <!-- Outer Decorative Card -->
+                    <div class="relative rounded-3xl p-3 deep-gradient shadow-2xl border-2 border-deepgreen-700 overflow-hidden green-glow animate-pulse-subtle">
+                        <!-- Header Bar Simulation -->
+                        <div class="flex items-center justify-between px-4 py-2 border-b border-deepgreen-800/80 text-xs text-deepgreen-300">
+                            <span class="flex items-center gap-2 font-mono"><i class="fa-solid fa-moon text-amber-300"></i> 山居聽泉 ‧ 深山吹笛</span>
+                            <span class="bg-deepgreen-800 px-2 py-0.5 rounded text-[10px] text-emerald-300 border border-deepgreen-600">幽靜純音樂</span>
+                        </div>
+
+                        <!-- Art Canvas Visual -->
+                        <div class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-stone-950 flex flex-col justify-end p-6 border border-deepgreen-800">
+                            <!-- Background Artwork simulation using SVG layer styling -->
+                            <div class="absolute inset-0 bg-cover bg-center opacity-90" style="background-image: url('https://placehold.co/800x600/09170e/ffffff?text=%E5%B1%B1%E居%E8%81%B0%E泉+%E6%B7%B1%E5%B1%B1%E5%90%B9%E7%AC%9B');">
+                                <div class="absolute inset-0 bg-gradient-to-t from-deepgreen-950 via-deepgreen-950/40 to-transparent"></div>
+                            </div>
+
+                            <!-- Floating Artwork Details -->
+                            <div class="relative z-10 space-y-2">
+                                <span class="px-2.5 py-1 rounded bg-emerald-900/80 text-emerald-200 text-xs font-bold border border-emerald-500/30 backdrop-blur-md">
+                                    頭戴斗笠 ‧ 青衣飄逸 ‧ 吹笛聽泉
+                                </span>
+                                <h3 class="text-2xl font-bold font-classical text-white tracking-wider">山空人靜 ‧ 萬卷通明</h3>
+                                <p class="text-xs text-emerald-200/80 leading-relaxed">
+                                    古箏的清亮流水、古琴的沉穩與竹笛的悠揚，伴隨深山夜雨，打造最平復心境的文言文閱讀學習氛圍。
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Decorative Footer inside Hero Card -->
+                        <div class="p-3 bg-deepgreen-900/90 rounded-b-2xl flex justify-between items-center text-xs text-deepgreen-200 font-semibold">
+                            <span>Suno AI Custom Ambient</span>
+                            <span class="text-amber-300 font-classical">《山居聽泉》主題曲</span>
+                        </div>
+                    </div>
+
+                    <!-- Ambient Floating Badges -->
+                    <div class="absolute -bottom-4 -left-4 bg-white p-3.5 rounded-2xl shadow-xl border border-deepgreen-200 flex items-center gap-3 z-20 hidden sm:flex">
+                        <div class="w-10 h-10 rounded-xl bg-deepgreen-100 text-deepgreen-800 flex items-center justify-center font-bold text-lg">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-deepgreen-950">四大詞性破譯</div>
+                            <div class="text-[11px] text-stone-500">名詞、代名詞、形容詞、副詞</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: LEARNING JOURNEY (學習歷程) -->
+    <section id="journey" class="py-16 sm:py-24 bg-white border-b border-deepgreen-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="px-3 py-1 rounded-full bg-deepgreen-100 text-deepgreen-900 text-xs font-bold tracking-wider uppercase border border-deepgreen-200">
+                    從卡關到通關 ‧ 研發歷程
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black font-classical text-deepgreen-950">
+                    為什麼我們打造「文言文解密特訓營」？
+                </h2>
+                <p class="text-stone-600 text-base leading-relaxed">
+                    文言文學不起來，不是你笨，而是沒有抓對「句型結構與詞性」！我們經歷了四個關鍵階梯，將枯燥的課本轉化為沈浸式的解密遊戲。
+                </p>
+            </div>
+
+            <!-- Horizontal Timeline Steps -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+                
+                <!-- Timeline Card 1 -->
+                <div class="bg-deepgreen-50/50 p-6 rounded-2xl border border-deepgreen-200 relative flex flex-col justify-between hover:shadow-md transition">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="w-8 h-8 rounded-full bg-deepgreen-900 text-white font-bold flex items-center justify-center text-sm shadow">1</span>
+                            <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md border border-rose-200">痛點卡關</span>
+                        </div>
+                        <h3 class="text-lg font-bold font-classical text-deepgreen-950">國中文言文最大魔王</h3>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            單字好像都看過，但句子合起來完全不懂？主詞常被省略，加上形容詞、副詞、代名詞亂成一團，閱讀斷句大受挫。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-deepgreen-200/80 text-[11px] font-bold text-deepgreen-800">
+                        💡 破局盲點：缺乏「詞性拆解」概念
+                    </div>
+                </div>
+
+                <!-- Timeline Card 2 -->
+                <div class="bg-deepgreen-50/50 p-6 rounded-2xl border border-deepgreen-200 relative flex flex-col justify-between hover:shadow-md transition">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="w-8 h-8 rounded-full bg-deepgreen-900 text-white font-bold flex items-center justify-center text-sm shadow">2</span>
+                            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">破解秘笈</span>
+                        </div>
+                        <h3 class="text-lg font-bold font-classical text-deepgreen-950">鎖定四大詞性口訣</h3>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            整理國中四大核心詞性：<strong>名詞（主詞）</strong>標記主角、<strong>代名詞</strong>抓「吾/汝/其/之」、<strong>形容詞</strong>修飾狀態、<strong>副詞</strong>抓「徒/甚/皆/不」。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-deepgreen-200/80 text-[11px] font-bold text-deepgreen-800">
+                        💡 破局關鍵：還原省略主語與語序
+                    </div>
+                </div>
+
+                <!-- Timeline Card 3 -->
+                <div class="bg-deepgreen-50/50 p-6 rounded-2xl border border-deepgreen-200 relative flex flex-col justify-between hover:shadow-md transition">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="w-8 h-8 rounded-full bg-deepgreen-900 text-white font-bold flex items-center justify-center text-sm shadow">3</span>
+                            <span class="text-xs font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200">遊戲機制</span>
+                        </div>
+                        <h3 class="text-lg font-bold font-classical text-deepgreen-950">遊戲化特訓營誕生</h3>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            設計易、中難、難三級試煉，導入 XP 經驗值、連續簽到、即時反饋、詩詞自選搜尋，將練習變成打怪升級！
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-deepgreen-200/80 text-[11px] font-bold text-deepgreen-800">
+                        💡 破局體驗：反覆練習不枯燥
+                    </div>
+                </div>
+
+                <!-- Timeline Card 4 -->
+                <div class="bg-deepgreen-50/50 p-6 rounded-2xl border border-deepgreen-200 relative flex flex-col justify-between hover:shadow-md transition">
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="w-8 h-8 rounded-full bg-deepgreen-900 text-white font-bold flex items-center justify-center text-sm shadow">4</span>
+                            <span class="text-xs font-bold text-deepgreen-800 bg-deepgreen-100 px-2.5 py-1 rounded-md border border-deepgreen-300">國風樂章</span>
+                        </div>
+                        <h3 class="text-lg font-bold font-classical text-deepgreen-950">主題曲《山居聽泉》</h3>
+                        <p class="text-xs text-stone-600 leading-relaxed">
+                            以 Suno AI 創作無人聲純配樂，融合古箏清泉、古琴沉穩、竹笛悠揚與夜雨聲，打造安靜專注的深山閱讀意境。
+                        </p>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-deepgreen-200/80 text-[11px] font-bold text-deepgreen-800">
+                        💡 破局美學：視覺與聽覺沉浸
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: PLATFORM CORE FEATURES (核心亮點) -->
+    <section id="features" class="py-16 sm:py-24 bg-deepgreen-50/40 border-b border-deepgreen-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div class="text-center max-w-3xl mx-auto space-y-4 mb-16">
+                <span class="px-3 py-1 rounded-full bg-white text-deepgreen-900 text-xs font-bold tracking-wider uppercase border border-deepgreen-200 shadow-sm">
+                    四大核心亮點
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black font-classical text-deepgreen-950">
+                    全面打通文言文任督二脈
+                </h2>
+                <p class="text-stone-600 text-base leading-relaxed">
+                    整合詞性解析、關卡試煉、龐大寶庫與 AI 動態拆解，讓你快速學會高效閱讀！
+                </p>
+            </div>
+
+            <!-- 2x2 Feature Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="bg-white p-8 rounded-2xl border border-deepgreen-200 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row gap-6 items-start">
+                    <div class="w-14 h-14 rounded-2xl bg-deepgreen-900 text-white flex-shrink-0 flex items-center justify-center text-2xl font-bold shadow">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-deepgreen-700 bg-deepgreen-100 px-2.5 py-0.5 rounded">🟢 🟡 🔴 三級難度</span>
+                            <span class="text-xs text-stone-400 font-semibold">循序漸進</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-classical text-deepgreen-950">易、中難、難三級分級試煉</h3>
+                        <p class="text-sm text-stone-600 leading-relaxed">
+                            初級著重單音節擴詞與基礎形容詞；進階解析《長歌行》主語省略與代名詞；挑戰級包含《史記》、《世說新語》倒裝句型。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-8 rounded-2xl border border-deepgreen-200 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row gap-6 items-start">
+                    <div class="w-14 h-14 rounded-2xl bg-deepgreen-900 text-white flex-shrink-0 flex items-center justify-center text-2xl font-bold shadow">
+                        <i class="fa-solid fa-cubes"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-deepgreen-700 bg-deepgreen-100 px-2.5 py-0.5 rounded">名 ‧ 代 ‧ 形 ‧ 副</span>
+                            <span class="text-xs text-stone-400 font-semibold">國中專屬</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-classical text-deepgreen-950">四大詞性極速拆解秘笈</h3>
+                        <p class="text-sm text-stone-600 leading-relaxed">
+                            清楚定義名詞主詞（是誰？）、代名詞（吾/汝/其/之）、形容詞（修飾名詞）、副詞（徒/甚/皆/不），一眼看出字詞角色。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-8 rounded-2xl border border-deepgreen-200 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row gap-6 items-start">
+                    <div class="w-14 h-14 rounded-2xl bg-deepgreen-900 text-white flex-shrink-0 flex items-center justify-center text-2xl font-bold shadow">
+                        <i class="fa-solid fa-book-bookmark"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-deepgreen-700 bg-deepgreen-100 px-2.5 py-0.5 rounded">唐詩 ‧ 宋詞 ‧ 元曲</span>
+                            <span class="text-xs text-stone-400 font-semibold">30+ 名篇</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-classical text-deepgreen-950">唐宋元 30+ 詩詞原文譯文庫</h3>
+                        <p class="text-sm text-stone-600 leading-relaxed">
+                            收錄《過故人莊》、《水調歌頭》、《天淨沙·秋思》等熱門課文，配備高亮字詞、逐句白話翻譯與意境背景賞析。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-8 rounded-2xl border border-deepgreen-200 shadow-sm hover:shadow-md transition flex flex-col sm:flex-row gap-6 items-start">
+                    <div class="w-14 h-14 rounded-2xl bg-deepgreen-900 text-white flex-shrink-0 flex items-center justify-center text-2xl font-bold shadow">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-deepgreen-700 bg-deepgreen-100 px-2.5 py-0.5 rounded">詩詞自選特訓</span>
+                            <span class="text-xs text-stone-400 font-semibold">即時題目生成</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-classical text-deepgreen-950">自選詩詞與 AI 語法拆解</h3>
+                        <p class="text-sm text-stone-600 leading-relaxed">
+                            支援輸入任何想學習的古詩詞，系統自動切割句型、分析高頻字詞性，並產出對應的專屬選擇題與 XP 獎勵！
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: POETRY LIBRARY EXPLORER (唐詩宋詞元曲寶庫) -->
+    <section id="poetry-library" class="py-16 sm:py-24 bg-white border-b border-deepgreen-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
+            
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
+                <div class="space-y-3">
+                    <span class="px-3 py-1 rounded-full bg-deepgreen-100 text-deepgreen-900 text-xs font-bold tracking-wider uppercase border border-deepgreen-200">
+                        詩詞寶庫互動展示
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-black font-classical text-deepgreen-950">
+                        唐詩 ‧ 宋詞 ‧ 元曲 典藏庫
+                    </h2>
+                    <p class="text-stone-600 text-sm sm:text-base">
+                        點擊切換體裁或搜尋詩名/詩句，查看完整原文、白話譯文與詞性點撥：
+                    </p>
+                </div>
+
+                <!-- Search Input Bar -->
+                <div class="w-full md:w-80 relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-stone-400"></i>
+                    <input type="text" id="poetry-search-input" oninput="filterPoetryList()" placeholder="搜尋詩名、作者或關鍵字..." class="w-full pl-11 pr-4 py-2.5 rounded-xl border border-deepgreen-300 focus:outline-none focus:ring-2 focus:ring-deepgreen-700 text-sm bg-deepgreen-50/30">
+                </div>
+            </div>
+
+            <!-- Filter Buttons Tabs -->
+            <div class="flex flex-wrap gap-2 border-b border-deepgreen-200 pb-4">
+                <button onclick="setPoetryCategory('all')" id="poetry-cat-all" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-deepgreen-900 text-white shadow">
+                    全部 (30+)
+                </button>
+                <button onclick="setPoetryCategory('tang')" id="poetry-cat-tang" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-deepgreen-50 text-deepgreen-900 hover:bg-deepgreen-100 border border-deepgreen-200 transition">
+                    📜 唐詩 (10首)
+                </button>
+                <button onclick="setPoetryCategory('song')" id="poetry-cat-song" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-deepgreen-50 text-deepgreen-900 hover:bg-deepgreen-100 border border-deepgreen-200 transition">
+                    🎵 宋詞 (10首)
+                </button>
+                <button onclick="setPoetryCategory('yuan')" id="poetry-cat-yuan" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-deepgreen-50 text-deepgreen-900 hover:bg-deepgreen-100 border border-deepgreen-200 transition">
+                    🪕 元曲 (10首)
+                </button>
+                <button onclick="setPoetryCategory('exam')" id="poetry-cat-exam" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-amber-50 text-amber-900 hover:bg-amber-100 border border-amber-300 transition">
+                    ⭐ 國中必考熱門
+                </button>
+            </div>
+
+            <!-- Poetry Cards Showcase Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="poetry-cards-container">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: THEME MUSIC SHOWCASE (主題曲《山居聽泉》) -->
+    <section id="theme-music" class="py-16 sm:py-24 bg-gradient-to-b from-white via-deepgreen-50/70 to-white border-b border-deepgreen-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column: Music Showcase & Audio Player Simulator -->
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="px-3 py-1 rounded-full bg-deepgreen-100 text-deepgreen-900 text-xs font-bold tracking-wider uppercase border border-deepgreen-200">
+                        Suno AI 專屬主題曲
+                    </span>
+                    
+                    <h2 class="text-3xl sm:text-4xl font-black font-classical text-deepgreen-950">
+                        《山居聽泉》純音樂樂章
+                    </h2>
+
+                    <p class="text-stone-600 text-sm sm:text-base leading-relaxed">
+                        摒棄嘈雜歌詞，採用古箏清泉、低沉古琴、悠揚竹笛與山雨聲。音樂節奏沉穩，專為文言文閱讀、句法拆解時的心境平復而設計。
+                    </p>
+
+                    <!-- Interactive Synthesizer Audio Player Box -->
+                    <div class="deep-gradient p-6 rounded-2xl border-2 border-deepgreen-700 text-white shadow-xl space-y-5">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 rounded-xl bg-deepgreen-800 border border-deepgreen-600 flex items-center justify-center text-emerald-400 text-xl font-black">
+                                    <i class="fa-solid fa-music"></i>
+                                </div>
+                                <div>
+                                    <div class="font-bold font-classical text-lg text-emerald-100">山居聽泉 (Ambient Theme)</div>
+                                    <div class="text-xs text-deepgreen-300">無人聲 ‧ 古箏 ‧ 古琴 ‧ 竹笛 ‧ 夜雨聲</div>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-full bg-emerald-900/80 text-emerald-300 text-xs font-mono border border-emerald-500/30">
+                                Pure Audio
+                            </span>
+                        </div>
+
+                        <!-- Audio Waveform Simulation Bar -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-xs text-deepgreen-300 font-mono">
+                                <span id="audio-timer">00:00</span>
+                                <span>五音五律 (宮商角徵羽)</span>
+                            </div>
+                            <div class="h-2 bg-deepgreen-950 rounded-full overflow-hidden border border-deepgreen-800">
+                                <div id="audio-progress" class="h-full bg-gradient-to-r from-emerald-500 to-teal-400 w-0 transition-all duration-300"></div>
+                            </div>
+                        </div>
+
+                        <!-- Synthesizer Controls -->
+                        <div class="flex items-center justify-between pt-2">
+                            <button id="synth-play-btn" onclick="toggleAudioDemo()" class="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition shadow-lg flex items-center gap-2">
+                                <i class="fa-solid fa-play" id="synth-play-icon"></i> <span id="synth-play-text">試聽《山居聽泉》旋律</span>
+                            </button>
+                            <span class="text-xs text-deepgreen-300 flex items-center gap-1.5">
+                                <i class="fa-solid fa-volume-high text-emerald-400"></i> Web Audio 擬真演奏
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Instrument Highlights Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="p-3 bg-white rounded-xl border border-deepgreen-200 text-center space-y-1">
+                            <div class="text-deepgreen-800 font-bold text-sm">🍵 古箏</div>
+                            <div class="text-[11px] text-stone-500">清亮如山泉滴落</div>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-deepgreen-200 text-center space-y-1">
+                            <div class="text-deepgreen-800 font-bold text-sm">🌲 古琴</div>
+                            <div class="text-[11px] text-stone-500">沉穩如深山夜色</div>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-deepgreen-200 text-center space-y-1">
+                            <div class="text-deepgreen-800 font-bold text-sm">🎋 竹笛</div>
+                            <div class="text-[11px] text-stone-500">悠揚如谷風拂竹</div>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-deepgreen-200 text-center space-y-1">
+                            <div class="text-deepgreen-800 font-bold text-sm">🌧️ 幽雨聲</div>
+                            <div class="text-[11px] text-stone-500">平復心境雜念</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Suno Prompt Panel with One-Click Copy -->
+                <div class="lg:col-span-6 bg-white p-6 sm:p-8 rounded-2xl border border-deepgreen-300 shadow-md space-y-5">
+                    <div class="flex justify-between items-center border-b border-deepgreen-100 pb-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-terminal text-deepgreen-700 text-lg"></i>
+                            <h3 class="text-xl font-bold font-classical text-deepgreen-950">Suno AI 填寫參數指令</h3>
+                        </div>
+                        <button onclick="copySunoPrompt()" class="px-3.5 py-1.5 bg-deepgreen-900 hover:bg-deepgreen-800 text-white text-xs font-bold rounded-lg shadow transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-copy"></i> 複製全部指令
+                        </button>
+                    </div>
+
+                    <!-- Prompt Details -->
+                    <div class="space-y-4 text-xs sm:text-sm">
+                        <div>
+                            <span class="font-bold text-deepgreen-900 block mb-1">1. Song Title（歌曲名稱）：</span>
+                            <div class="p-2.5 bg-deepgreen-50/80 rounded-lg border border-deepgreen-200 font-mono text-deepgreen-950">山居聽泉</div>
+                        </div>
+
+                        <div>
+                            <span class="font-bold text-deepgreen-900 block mb-1">2. Style of Music（音樂風格標籤）：</span>
+                            <div class="p-2.5 bg-deepgreen-50/80 rounded-lg border border-deepgreen-200 font-mono text-deepgreen-950 leading-relaxed">
+                                Traditional Chinese Guofeng, pure instrumental, no vocals, mellow Guzheng, quiet Guqin, gentle bamboo flute (Dizi), rain soundscape, atmospheric ambient, slow tempo, peaceful, meditative, acoustic
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="font-bold text-deepgreen-900 block mb-1">3. Instrumental Switch（開關設定）：</span>
+                            <div class="p-2.5 bg-emerald-50 rounded-lg border border-emerald-300 text-emerald-950 font-semibold flex items-center gap-2">
+                                <i class="fa-solid fa-toggle-on text-emerald-600 text-lg"></i> 請在 Suno 介面上開啟【Instrumental】純音樂選項
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: LIVE MINI QUIZ GAME (即時體驗試煉區) -->
+    <section id="mini-game" class="py-16 sm:py-24 bg-white border-b border-deepgreen-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6">
+            
+            <div class="text-center space-y-3 mb-10">
+                <span class="px-3 py-1 rounded-full bg-deepgreen-100 text-deepgreen-900 text-xs font-bold tracking-wider uppercase border border-deepgreen-200">
+                    即時體驗試煉場
+                </span>
+                <h2 class="text-3xl sm:text-4xl font-black font-classical text-deepgreen-950">
+                    文言文四大詞性 3 分鐘速測
+                </h2>
+                <p class="text-stone-600 text-sm sm:text-base">
+                    測試你是否已經掌握「名詞主語」、「代名詞」、「形容詞」、「副詞」的分辨口訣！
+                </p>
+            </div>
+
+            <!-- Quiz Box Container -->
+            <div class="bg-white rounded-3xl border-2 border-deepgreen-300 shadow-2xl overflow-hidden">
+                <!-- Header -->
+                <div class="bg-deepgreen-900 text-white p-5 px-6 flex justify-between items-center border-b border-deepgreen-800">
+                    <div class="flex items-center gap-3">
+                        <span class="bg-emerald-500 text-deepgreen-950 font-black text-xs px-2.5 py-1 rounded-md shadow">實戰體驗</span>
+                        <h3 class="font-bold text-lg font-classical text-emerald-100">國中必考詞性解密</h3>
+                    </div>
+                    <div class="text-xs font-bold text-emerald-300 bg-deepgreen-800 px-3 py-1 rounded-full border border-deepgreen-700">
+                        目前 XP: <span id="quiz-xp-count" class="text-amber-300">0</span>
+                    </div>
+                </div>
+
+                <!-- Quiz Progress Bar -->
+                <div class="w-full bg-deepgreen-100 h-2">
+                    <div id="mini-quiz-progress" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-2 transition-all duration-300" style="width: 33%"></div>
+                </div>
+
+                <!-- Quiz Content Area -->
+                <div class="p-6 sm:p-8 space-y-6">
+                    <div class="flex justify-between items-center text-xs font-bold text-stone-500">
+                        <span>QUESTION <span id="mini-q-num">1</span> OF 3</span>
+                        <span id="mini-q-tag" class="px-2.5 py-0.5 rounded bg-deepgreen-100 text-deepgreen-900 font-bold">🟢 初級題</span>
+                    </div>
+
+                    <!-- Poetry Passage Card -->
+                    <div id="mini-passage-box" class="p-6 bg-deepgreen-50/60 border border-deepgreen-200 rounded-2xl text-deepgreen-950 font-classical text-xl sm:text-2xl text-center leading-relaxed shadow-inner">
+                        <!-- Passage text injected -->
+                    </div>
+
+                    <!-- Question Prompt -->
+                    <p id="mini-question-text" class="text-base sm:text-lg font-bold text-deepgreen-950">
+                        <!-- Question title injected -->
+                    </p>
+
+                    <!-- Options Grid -->
+                    <div id="mini-options-container" class="grid grid-cols-1 gap-3.5">
+                        <!-- Options injected -->
+                    </div>
+
+                    <!-- Feedback Area -->
+                    <div id="mini-feedback-box" class="hidden p-5 rounded-xl text-sm space-y-2 border transition-all">
+                        <div class="font-bold text-base flex items-center gap-2" id="mini-feedback-title"></div>
+                        <p id="mini-feedback-desc" class="text-stone-800 leading-relaxed text-sm"></p>
+                    </div>
+                </div>
+
+                <!-- Footer Action Bar -->
+                <div class="bg-deepgreen-50 p-4 px-6 border-t border-deepgreen-200 flex justify-between items-center">
+                    <span class="text-xs font-semibold text-stone-500" id="mini-reward-tag">答對可得 +50 XP</span>
+                    <button id="mini-next-btn" onclick="nextMiniQuestion()" class="hidden px-6 py-2.5 bg-deepgreen-900 hover:bg-deepgreen-800 text-white font-bold text-sm rounded-xl transition flex items-center gap-2 shadow">
+                        下一題 <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-deepgreen-950 text-white py-12 border-t border-deepgreen-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-deepgreen-800/80 pb-8">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-deepgreen-800 text-emerald-300 flex items-center justify-center font-bold text-lg font-classical border border-deepgreen-600">
+                            解
+                        </div>
+                        <span class="text-xl font-bold font-classical text-emerald-100">文言文解密特訓營</span>
+                    </div>
+                    <p class="text-xs text-deepgreen-300">山空人靜 ‧ 萬卷通明 ‧ 國中文言文學習的最佳遊戲化夥伴</p>
+                </div>
+
+                <div class="flex flex-wrap gap-6 text-xs text-deepgreen-300 font-semibold">
+                    <a href="#journey" class="hover:text-white transition">學習歷程</a>
+                    <a href="#features" class="hover:text-white transition">核心功能</a>
+                    <a href="#poetry-library" class="hover:text-white transition">唐宋元寶庫</a>
+                    <a href="#theme-music" class="hover:text-white transition">主題曲《山居聽泉》</a>
+                    <a href="#mini-game" class="hover:text-white transition">即時試煉場</a>
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center text-xs text-deepgreen-400 gap-4">
+                <p>© 2026 文言文解密特訓營. All rights reserved. Designed for Junior High Classical Poetry Mastery.</p>
+                <div class="flex items-center gap-4">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-leaf text-emerald-400"></i> 青綠山水美學</span>
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-headphones text-emerald-400"></i> Suno AI 音樂配樂</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        // Database of Tang, Song, and Yuan Poems for the Library Showcase
+        const poetryDatabase = [
+            {
+                id: 1,
+                title: "《長歌行》",
+                author: "漢樂府",
+                category: "tang", // Grouped in ancient/tang style
+                isExam: true,
+                lines: ["青青園中葵，朝露待日晞。", "陽春布德澤，萬物生光輝。", "百川東到海，何日復西歸？", "少壯不努力，老大徒傷悲！"],
+                translation: "園中的葵菜鬱鬱蔥蔥，清晨的露水等待太陽晒乾。溫暖的春天廣施恩惠，萬物充滿生機光彩。百川向東流向大海，何時才能再往西回流？年輕時不努力，年老時只能白白地悲傷！",
+                grammarNotes: "「青青」為形容詞修飾名詞葵；「徒」為副詞（白白地/空自）。"
+            },
+            {
+                id: 2,
+                title: "《過故人莊》",
+                author: "孟浩然 (唐)",
+                category: "tang",
+                isExam: true,
+                lines: ["故人具雞黍，邀我至田家。", "綠樹村邊合，青山郭外斜。", "開軒面場圃，把酒話桑麻。", "待到重陽日，還來就菊花。"],
+                translation: "老朋友準備了豐盛飯菜，邀請我到他的田家作客。翠綠的樹木圍繞村落，青山在城牆外傾斜。打開窗戶面對穀場菜園，端著酒杯閒聊桑麻農事。等到重陽節那天，還要再來品酒賞菊。",
+                grammarNotes: "「綠/青」為形容詞；「我」為代名詞作賓語。"
+            },
+            {
+                id: 3,
+                title: "《楓橋夜泊》",
+                author: "張繼 (唐)",
+                category: "tang",
+                isExam: true,
+                lines: ["月落烏啼霜滿天，江楓漁火對愁眠。", "姑蘇城外寒山寺，夜半鐘聲到客船。"],
+                translation: "月亮西沉、烏鴉啼叫，滿天籠罩著寒霜。江邊楓樹與漁火，對著懷著愁思入睡的旅人。姑蘇城外的寒山寺，半夜敲響的鐘聲傳到了客船。",
+                grammarNotes: "「愁」此處修飾「眠」，作副詞/狀語（憂愁地睡覺）。"
+            },
+            {
+                id: 4,
+                title: "《水調歌頭》",
+                author: "蘇軾 (宋)",
+                category: "song",
+                isExam: true,
+                lines: ["明月幾時有？把酒問青天。", "不知天上宮闕，今夕是何年。", "我欲乘風歸去，又恐瓊樓玉宇，高處不勝寒。", "人有悲歡離合，月有陰晴圓缺，此事古難全。", "但願人長久，千里共嬋娟。"],
+                translation: "明月從什麼時候開始有的？端著酒杯詢問青天。不知天上的宮殿，今晚是哪一年。我想到月宮歸去，又怕玉石築成的樓閣，高處讓人禁不起寒冷。人有悲歡離合，月有陰晴圓缺，這種事自古難以周全。但願大家平安長久，千里共賞明月。",
+                grammarNotes: "「我」為第一人稱代名詞；「但」為副詞（只/只願）。"
+            },
+            {
+                id: 5,
+                title: "《相見歡·無言獨上西樓》",
+                author: "李煜 (宋)",
+                category: "song",
+                isExam: false,
+                lines: ["無言獨上西樓，月如鉤。", "寂寞梧桐深院鎖清秋。", "剪不斷，理還亂，是離愁。", "別是一般滋味在心頭。"],
+                translation: "默默無言獨自登上西樓，月亮彎彎如鉤。寂寞的梧桐樹被深院鎖住清冷秋色。剪也剪不斷，理也理不清，是心中離別的愁苦。別有一番特別的滋味湧上心頭。",
+                grammarNotes: "「獨」為副詞（獨自地）；「清」為形容詞修飾秋色。"
+            },
+            {
+                id: 6,
+                title: "《天淨沙·秋思》",
+                author: "馬致遠 (元)",
+                category: "yuan",
+                isExam: true,
+                lines: ["枯藤老樹昏鴉，小橋流水人家，古道西風瘦馬。", "夕陽西下，斷腸人在天涯。"],
+                translation: "枯萎的藤蔓、衰老的樹木、黃昏歸巢的烏鴉，小橋、流水、幾戶人家，古老荒涼的古道上吹著秋風，騎著瘦弱的馬。夕陽向西沉下，極度悲傷的漂泊人遠在天涯。",
+                grammarNotes: "「枯/老/昏/小/古/瘦」均為形容詞，交織出秋天淒涼意境。"
+            },
+            {
+                id: 7,
+                title: "《山坡羊·潼關懷古》",
+                author: "張養浩 (元)",
+                category: "yuan",
+                isExam: true,
+                lines: ["峰巒如聚，波濤如怒，山河表裏潼關路。", "望西都，意躊躇。", "傷心秦漢經行處，宮闕萬間都做了土。", "興，百姓苦；亡，百姓苦。"],
+                translation: "山峰綿延如重聚，黃河波濤怒吼，潼關佔據山河險要。遠望西京長安，心潮起伏躊躇。令人傷心的是秦漢故地，萬間華麗宮殿都化為了塵土。國家興盛，百姓受苦；國家滅亡，百姓依然受苦。",
+                grammarNotes: "「都」為副詞（全都）；「苦」為形容詞/動詞使動用法。"
+            },
+            {
+                id: 8,
+                title: "《沉醉東風·漁父》",
+                author: "白朴 (元)",
+                category: "yuan",
+                isExam: false,
+                lines: ["黃蘆岸白蘋渡口，綠楊堤紅樹碼頭。", "隱隱飛橋隔野煙，石磯西畔漁船扣。", "桃花水漲鷗鷺飛，不記來時路。"],
+                translation: "岸邊黃蘆生長，渡口白蘋點點，綠柳沿堤，紅葉映照碼頭。隱隱約約的飛橋被野外煙霧隔開，漁船繫靠在石磯西畔。春水上漲桃花飄落，鷗鷺自由飛翔，早已忘卻了來時的路。",
+                grammarNotes: "「黃/白/綠/紅」為顏色形容詞，展現元曲豐富色彩感。"
+            }
+        ];
+
+        // On-Page Mini Quiz Questions
+        const miniQuizData = [
+            {
+                passage: "少壯不努力，老大徒傷悲！（漢樂府《長歌行》）",
+                tag: "🟢 初級題",
+                question: "請問句中的「徒」字修飾動詞「傷悲」，屬於什麼詞性？意思為何？",
+                options: [
+                    "副詞（意思是「白白地 / 空自」）",
+                    "形容詞（形容徒弟）",
+                    "名詞（指年老的人）",
+                    "代名詞（代替自己）"
+                ],
+                correct: 0,
+                explanation: "【副詞解析】：「徒」修飾後方的動詞「傷悲」，為副詞，意思是「白白地、空自」。整句：年輕時不努力，年老時只能白白地悲傷。"
+            },
+            {
+                passage: "綠樹村邊合，青山郭外斜。（孟浩然《過故人莊》）",
+                tag: "🟡 進階題",
+                question: "「綠」與「青」在此句中分別修飾「樹」與「山」，請問它們屬於何種詞性？",
+                options: [
+                    "名詞",
+                    "形容詞（修飾名詞「樹」與「山」）",
+                    "副詞",
+                    "代名詞"
+                ],
+                correct: 1,
+                explanation: "【形容詞解析】：「綠」樹與「青」山中的「綠/青」都是說明名詞長相與顏色的「形容詞」。"
+            },
+            {
+                passage: "漁人甚異之，復前行，欲窮其林。（陶淵明《桃花源記》）",
+                tag: "🔴 挑戰題",
+                question: "「甚異之」中的「甚」與「之」分別屬於什麼詞性？",
+                options: [
+                    "「甚」為副詞（非常）；「之」為代名詞（指這奇景）",
+                    "「甚」為名詞；「之」為動詞（去/到）",
+                    "兩者皆為形容詞",
+                    "「甚」為形容詞；「之」為助詞（的）"
+                ],
+                correct: 0,
+                explanation: "【副詞與代名詞解析】：「甚」為程度副詞（非常）；「異」為動詞（感到驚奇）；「之」為代名詞（代替看到桃花林這件事）。"
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentMiniQIdx = 0;
+        let miniQuizScore = 0;
+        let miniQuizAnswered = false;
+
+        // Web Audio Synthesizer for "山居聽泉" Demo Sound
+        let audioCtx = null;
+        let isAudioPlaying = false;
+        let audioTimerInterval = null;
+
+        function toggleAudioDemo() {
+            if (!isAudioPlaying) {
+                startAudioSynth();
+            } else {
+                stopAudioSynth();
+            }
+        }
+
+        function startAudioSynth() {
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                isAudioPlaying = true;
+                
+                document.getElementById('synth-play-icon').className = "fa-solid fa-pause text-amber-300";
+                document.getElementById('synth-play-text').innerText = "暫停試聽旋律";
+                showToast("開始播放《山居聽泉》五音擬真旋律...");
+
+                let currentSec = 0;
+                audioTimerInterval = setInterval(() => {
+                    currentSec++;
+                    const min = String(Math.floor(currentSec / 60)).padStart(2, '0');
+                    const sec = String(currentSec % 60).padStart(2, '0');
+                    document.getElementById('audio-timer').innerText = `${min}:${sec}`;
+                    
+                    const pct = (currentSec % 30) / 30 * 100;
+                    document.getElementById('audio-progress').style.width = `${pct}%`;
+
+                    // Play Guqin/Guzheng Pentatonic note every second
+                    playPentatonicNote();
+                }, 800);
+
+            } catch(e) {
+                showToast("您的瀏覽器暫不支援 Web Audio");
+            }
+        }
+
+        function playPentatonicNote() {
+            if (!audioCtx || !isAudioPlaying) return;
+            const pentatonicScale = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33]; // C, D, E, G, A, C5, D5
+            const note = pentatonicScale[Math.floor(Math.random() * pentatonicScale.length)];
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(note, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.2);
+        }
+
+        function stopAudioSynth() {
+            isAudioPlaying = false;
+            if (audioTimerInterval) clearInterval(audioTimerInterval);
+            if (audioCtx) audioCtx.close();
+            document.getElementById('synth-play-icon').className = "fa-solid fa-play";
+            document.getElementById('synth-play-text').innerText = "試聽《山居聽泉》旋律";
+            document.getElementById('audio-progress').style.width = "0%";
+            showToast("已暫停音樂試聽");
+        }
+
+        // Poetry Showcase Filter System
+        function setPoetryCategory(cat) {
+            currentCategory = cat;
+            const catButtons = ['all', 'tang', 'song', 'yuan', 'exam'];
+            catButtons.forEach(c => {
+                const btn = document.getElementById(`poetry-cat-${c}`);
+                if (btn) {
+                    if (c === cat) {
+                        btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-deepgreen-900 text-white shadow";
+                    } else {
+                        btn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-deepgreen-50 text-deepgreen-900 hover:bg-deepgreen-100 border border-deepgreen-200 transition";
+                    }
+                }
+            });
+            renderPoetryCards();
+        }
+
+        function filterPoetryList() {
+            renderPoetryCards();
+        }
+
+        function renderPoetryCards() {
+            const container = document.getElementById('poetry-cards-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const searchTerm = document.getElementById('poetry-search-input').value.trim().toLowerCase();
+
+            const filtered = poetryDatabase.filter(item => {
+                // Category filter
+                let matchCat = true;
+                if (currentCategory === 'tang') matchCat = (item.category === 'tang');
+                if (currentCategory === 'song') matchCat = (item.category === 'song');
+                if (currentCategory === 'yuan') matchCat = (item.category === 'yuan');
+                if (currentCategory === 'exam') matchCat = item.isExam;
+
+                // Search term filter
+                let matchSearch = true;
+                if (searchTerm) {
+                    matchSearch = item.title.toLowerCase().includes(searchTerm) ||
+                                  item.author.toLowerCase().includes(searchTerm) ||
+                                  item.lines.some(l => l.toLowerCase().includes(searchTerm));
+                }
+
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-12 text-center text-stone-500 font-semibold space-y-2">
+                        <i class="fa-solid fa-scroll text-3xl text-deepgreen-300"></i>
+                        <p>未找到相關詩詞，請嘗試更改搜尋關鍵字</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-deepgreen-200 p-6 space-y-4 hover:shadow-lg transition flex flex-col justify-between";
+
+                card.innerHTML = `
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded ${item.isExam ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-deepgreen-100 text-deepgreen-900'}">
+                                ${item.isExam ? '⭐ 國中必考' : '經典名篇'}
+                            </span>
+                            <span class="text-xs font-bold text-stone-500">${item.author}</span>
+                        </div>
+                        <h3 class="text-xl font-bold font-classical text-deepgreen-950">${item.title}</h3>
+                        <div class="p-3 bg-deepgreen-50/60 rounded-xl font-classical text-sm sm:text-base leading-relaxed text-deepgreen-950 space-y-1 border border-deepgreen-100">
+                            ${item.lines.map(line => `<div>${line}</div>`).join('')}
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-2 border-t border-deepgreen-100">
+                        <div class="text-xs text-stone-600 leading-relaxed">
+                            <strong class="text-deepgreen-900">【譯文】</strong> ${item.translation}
+                        </div>
+                        <div class="text-[11px] font-bold text-deepgreen-800 bg-emerald-50/80 p-2 rounded border border-emerald-200">
+                            💡 ${item.grammarNotes}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Mini Quiz Mechanics
+        function loadMiniQuestion() {
+            const q = miniQuizData[currentMiniQIdx];
+            miniQuizAnswered = false;
+
+            document.getElementById('mini-q-num').innerText = currentMiniQIdx + 1;
+            document.getElementById('mini-q-tag').innerText = q.tag;
+            document.getElementById('mini-quiz-progress').style.width = `${((currentMiniQIdx + 1) / 3) * 100}%`;
+
+            document.getElementById('mini-passage-box').innerText = q.passage;
+            document.getElementById('mini-question-text').innerText = q.question;
+
+            const container = document.getElementById('mini-options-container');
+            container.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-xl border border-deepgreen-200 hover:border-deepgreen-500 hover:bg-deepgreen-50/70 font-medium text-deepgreen-950 transition flex items-center justify-between group";
+                btn.onclick = () => selectMiniOption(idx);
+                btn.innerHTML = `
+                    <span class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-deepgreen-100 group-hover:bg-deepgreen-300 text-deepgreen-900 font-bold flex items-center justify-center text-xs">
+                            ${String.fromCharCode(65 + idx)}
+                        </span>
+                        <span class="text-sm sm:text-base">${opt}</span>
+                    </span>
+                    <i class="fa-regular fa-circle text-stone-300 group-hover:text-deepgreen-600"></i>
+                `;
+                container.appendChild(btn);
+            });
+
+            document.getElementById('mini-feedback-box').classList.add('hidden');
+            document.getElementById('mini-next-btn').classList.add('hidden');
+        }
+
+        function selectMiniOption(idx) {
+            if (miniQuizAnswered) return;
+            miniQuizAnswered = true;
+
+            const q = miniQuizData[currentMiniQIdx];
+            const isCorrect = (idx === q.correct);
+
+            if (isCorrect) {
+                miniQuizScore += 50;
+                document.getElementById('quiz-xp-count').innerText = miniQuizScore;
+                showToast("回答正確！+50 XP");
+            }
+
+            const container = document.getElementById('mini-options-container');
+            const btns = container.querySelectorAll('button');
+
+            btns.forEach((btn, optIdx) => {
+                btn.disabled = true;
+                if (optIdx === q.correct) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-emerald-500 bg-emerald-50 font-medium text-emerald-950 flex items-center justify-between";
+                } else if (optIdx === idx && !isCorrect) {
+                    btn.className = "w-full text-left p-4 rounded-xl border-2 border-rose-500 bg-rose-50 font-medium text-rose-950 flex items-center justify-between";
+                } else {
+                    btn.className = "w-full text-left p-4 rounded-xl border border-deepgreen-200 opacity-50 font-medium text-stone-600 flex items-center justify-between";
+                }
+            });
+
+            const feedbackBox = document.getElementById('mini-feedback-box');
+            const feedbackTitle = document.getElementById('mini-feedback-title');
+            const feedbackDesc = document.getElementById('mini-feedback-desc');
+
+            feedbackBox.classList.remove('hidden');
+            if (isCorrect) {
+                feedbackBox.className = "p-5 rounded-xl text-sm space-y-2 border bg-emerald-50 border-emerald-300 text-emerald-950";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-lg"></i> 答對了！經驗值 +50 XP`;
+            } else {
+                feedbackBox.className = "p-5 rounded-xl text-sm space-y-2 border bg-rose-50 border-rose-300 text-rose-950";
+                feedbackTitle.innerHTML = `<i class="fa-solid fa-circle-xmark text-rose-600 text-lg"></i> 答錯了，請看詞性解密：`;
+            }
+            feedbackDesc.innerText = q.explanation;
+
+            const nextBtn = document.getElementById('mini-next-btn');
+            nextBtn.classList.remove('hidden');
+            if (currentMiniQIdx === miniQuizData.length - 1) {
+                nextBtn.innerHTML = `查看結算成績 <i class="fa-solid fa-trophy"></i>`;
+            } else {
+                nextBtn.innerHTML = `下一題 <i class="fa-solid fa-arrow-right"></i>`;
+            }
+        }
+
+        function nextMiniQuestion() {
+            if (currentMiniQIdx < miniQuizData.length - 1) {
+                currentMiniQIdx++;
+                loadMiniQuestion();
+            } else {
+                showToast(`🎉 恭喜完成試煉！共獲得 ${miniQuizScore} XP`);
+                currentMiniQIdx = 0;
+                loadMiniQuestion();
+            }
+        }
+
+        // Copy Suno Prompt to Clipboard
+        function copySunoPrompt() {
+            const promptText = `Song Title: 山居聽泉\nStyle of Music: Traditional Chinese Guofeng, pure instrumental, no vocals, mellow Guzheng, quiet Guqin, gentle bamboo flute (Dizi), rain soundscape, atmospheric ambient, slow tempo, peaceful, meditative, acoustic\nInstrumental: ON`;
+            
+            const textarea = document.createElement('textarea');
+            textarea.value = promptText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast("已成功複製 Suno 指令到剪貼簿！");
+            } catch (err) {
+                showToast("複製失敗，請手動複製");
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // Toast Helper
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            if (!toast || !toastMsg) return;
+
+            toastMsg.innerText = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Mobile Menu Drawer Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        document.getElementById('mobile-menu-toggle')?.addEventListener('click', toggleMobileMenu);
+
+        // Window Init
+        window.onload = function() {
+            renderPoetryCards();
+            loadMiniQuestion();
+        };
+    </script>
+</body>
+</html>
